@@ -1,3 +1,5 @@
+<%@page import="org.senai.model.Pessoa"%>
+<%@page import="org.senai.dao.PessoaDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -15,19 +17,33 @@
 </head>
 
 <body>
+	<%
+	Pessoa p = new Pessoa();
+	try {
+		int id = Integer.parseInt(request.getParameter("id"));
+		PessoaDao dao = new PessoaDao();
+		p = dao.getPessoa(id);
+	} catch (Exception e) {
+
+	}
+	%>
+
 	<form action="cadastroServlet">
+		<input type="hidden" name="id" value="<%=p.getId()%>">
 		<fieldset>
 			<legend>CADASTRO</legend>
 			<img id="img-java" src="img/java.png" alt="imagem java"> <label
 				for="nome">Nome Completo:</label> <input class="larguraTexto"
 				type="text" id="nome" name="nome-completo"
-				placeholder="Digite seu nome completo"> <label
-				for="telefone">Telefone:</label> <input class="larguraTexto"
-				type="text" placeholder="(61)9.9999-9999" name="telefone"> <label
+				placeholder="Digite seu nome completo"
+				value="<%=p.getNomeCompleto()%>"> <label for="telefone">Telefone:</label>
+			<input class="larguraTexto" type="text" placeholder="(61)9.9999-9999"
+				name="telefone" value="<%=p.getTelefone()%>"> <label
 				for="dtNascimento">Data de Nascimento:</label> <input
 				class="larguraTexto" type="date" id="dtNascimento"
-				name="dt-nascimento"> <label for="email">E-mail:</label> <input
-				class="larguraTexto" type="email" id="email" name="email"> <label
+				name="dt-nascimento" value="<%=p.getDtNascimento()%>"> <label
+				for="email">E-mail:</label> <input class="larguraTexto" type="email"
+				id="email" name="email" value="<%=p.getEmail()%>"> <label
 				for="sexo">Sexo:</label>
 			<div class="bloco-inline">
 				<input type="radio" id="masc" name="sexo" value="m"> <label
@@ -48,11 +64,27 @@
 				<option value="">Selecione</option>
 				<option value="Fundamental">Fundamental</option>
 				<option value="Ensino Médio">Ensino Médio</option>
-				<option value="Superior">Superior</option>
+				<option value="Superio">Superior</option>
 			</select> <input type="submit" class="bt" value="Enviar"> <input
 				type="reset" class="bt" value="Limpar">
 		</fieldset>
 	</form>
+	<script type="text/javascript">
+		var lsSexo = document.getElementsByName("sexo");
+		for (i in lsSexo) {
+			if (lsSexo[i].value == '<%=p.getSexo()%>') {
+				lsSexo[i].setAttribute('checked', 'checked');
+			}
+		}
+		
+		document.getElementById("escolaridade").value = "<%=p.getEscolaridade()%>";
+	<%for (String t : p.getTecnologia()) {
+	out.println("document.getElementById('" + t + "').setAttribute('checked', 'checked')");
+}%>
+		
+	</script>
+	<br>
+	<a href="index.jsp" style="float: right;"></a>
 </body>
 
 </html>

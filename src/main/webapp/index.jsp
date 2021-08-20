@@ -6,11 +6,16 @@
 <meta charset="UTF-8">
 <title>Primeira Página JSP</title>
 </head>
-<body>Primeira Página JSP
-
-<%
-String app = request.getParameter("app");
-out.print("Aqui é um conteúdo " + "app");
-%>
+<body>
+	<%
+	String app = request.getParameter("app");
+	if (app == null)
+		app = "JSP";
+	out.print("Aqui é um conteudo " + app);
+	%>
+	<br>
+	<a href="formCadastro.jsp">Novo Cadastro</a>
+	<br>
+	<a href="listaPessoas.jsp">Lista de Pessoas</a>
 </body>
 </html>
